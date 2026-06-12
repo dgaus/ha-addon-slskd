@@ -1,5 +1,5 @@
 #!/bin/bash
-# Translate Home Assistant add-on options (/data/options.json) into Soularr's
+# Translate Home Assistant app options (/data/options.json) into Soularr's
 # config.ini, then hand off to the upstream interval-loop script.
 set -euo pipefail
 
@@ -39,15 +39,15 @@ lidarr_url = (opts.get("lidarr_url") or "").rstrip("/")
 lidarr_api_key = opts.get("lidarr_api_key") or ""
 if not lidarr_url or not lidarr_api_key:
     fail(
-        "lidarr_url and lidarr_api_key must be set in the add-on configuration. "
+        "lidarr_url and lidarr_api_key must be set in the app configuration. "
         "Find the API key in Lidarr under Settings > General, and the hostname "
-        "on the Lidarr add-on's info page (e.g. http://<hostname>:8686)."
+        "on the Lidarr app's info page (e.g. http://<hostname>:8686)."
     )
 
 slskd_url = opts.get("slskd_url") or "auto"
 if slskd_url == "auto":
-    # Discover the slskd add-on installed from this repository via the
-    # Supervisor API; add-ons are reachable at their slug with '_' -> '-'.
+    # Discover the slskd app installed from this repository via the
+    # Supervisor API; apps are reachable at their slug with '_' -> '-'.
     import os
 
     token = os.environ.get("SUPERVISOR_TOKEN")
@@ -67,11 +67,11 @@ if slskd_url == "auto":
     slugs = [a["slug"] for a in addons if a["slug"].endswith("_slskd")]
     if not slugs:
         fail(
-            "no installed slskd add-on found. Install it from this repository, "
+            "no installed slskd app found. Install it from this repository, "
             "or set slskd_url explicitly."
         )
     slskd_url = f"http://{slugs[0].replace('_', '-')}:5030"
-    print(f"Discovered slskd add-on at {slskd_url}")
+    print(f"Discovered slskd app at {slskd_url}")
 
 download_dir = opts.get("download_dir") or "/media/slskd/downloads"
 lidarr_download_dir = opts.get("lidarr_download_dir") or download_dir

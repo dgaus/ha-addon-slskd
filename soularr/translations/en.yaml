@@ -1,19 +1,19 @@
 configuration:
   lidarr_url:
     name: Lidarr URL
-    description: Base URL of your Lidarr instance, e.g. http://<lidarr-hostname>:8686. For a Lidarr add-on, the hostname is shown on its info page.
+    description: Base URL of your Lidarr instance, e.g. http://<lidarr-hostname>:8686. For a Lidarr app, the hostname is shown on its info page.
   lidarr_api_key:
     name: Lidarr API key
     description: Found in Lidarr under Settings > General > Security.
   slskd_url:
     name: slskd URL
-    description: Leave on "auto" to find the slskd add-on from this repository automatically, or set e.g. http://<slskd-hostname>:5030.
+    description: Leave on "auto" to find the slskd app from this repository automatically, or set e.g. http://<slskd-hostname>:5030.
   slskd_api_key:
     name: slskd API key
-    description: Only needed if slskd authentication is enabled; the default placeholder works with the slskd add-on's default no-auth setup.
+    description: Only needed if slskd authentication is enabled; the default placeholder works with the slskd app's default no-auth setup.
   download_dir:
     name: Download directory
-    description: slskd's download directory as this add-on sees it. Must match the slskd add-on's download directory option.
+    description: slskd's download directory as this app sees it. Must match the slskd app's download directory option.
   lidarr_download_dir:
     name: Lidarr download directory
     description: Optional. The same download directory as Lidarr sees it, if Lidarr mounts it at a different path. Defaults to the download directory.

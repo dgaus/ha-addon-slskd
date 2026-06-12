@@ -1,5 +1,5 @@
 #!/bin/bash
-# Translate Home Assistant add-on options (/data/options.json) into SLSKD_*
+# Translate Home Assistant app options (/data/options.json) into SLSKD_*
 # environment variables, then hand off to the upstream slskd entrypoint.
 set -euo pipefail
 
@@ -9,20 +9,20 @@ opt() {
     jq -r "$1 // empty" "$OPTIONS"
 }
 
-# Persist all slskd state (databases, search history) in the add-on's
+# Persist all slskd state (databases, search history) in the app's
 # /data volume; the upstream default /app is lost on rebuild.
 export SLSKD_APP_DIR=/data/slskd
 mkdir -p "$SLSKD_APP_DIR"
 
 # Keep slskd.yml in the addon_config mount so users can edit advanced
-# settings from Home Assistant (File editor / Samba add-ons) at
+# settings from Home Assistant (File editor / Samba apps) at
 # /addon_configs/..._slskd/slskd.yml. slskd watches the file and reloads
 # most settings at runtime.
 export SLSKD_CONFIG=/config/slskd.yml
 mkdir -p /config
 if [ ! -f "$SLSKD_CONFIG" ]; then
     if [ -f /data/slskd/slskd.yml ]; then
-        # Migrate the config written by add-on versions <= 0.25.1.1.
+        # Migrate the config written by app versions <= 0.25.1.1.
         mv /data/slskd/slskd.yml "$SLSKD_CONFIG"
     else
         # Seed with the upstream example, which documents every option.

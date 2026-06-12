@@ -1,40 +1,40 @@
-# Soularr Home Assistant Add-on
+# Soularr Home Assistant App
 
 [Soularr](https://github.com/mrusse/soularr) connects [Lidarr](https://lidarr.audio/)
 with Soulseek: on an interval it reads your wanted albums from Lidarr, searches the
-Soulseek network through the slskd add-on, downloads matches, and triggers Lidarr
+Soulseek network through the slskd app, downloads matches, and triggers Lidarr
 imports — a hands-off music pipeline.
 
 ## Prerequisites
 
-- The **slskd add-on** from this repository, installed, configured, and connected
+- The **slskd app** from this repository, installed, configured, and connected
   to the Soulseek network.
-- **Lidarr** running and reachable, e.g. as a Home Assistant add-on on the same
-  machine. Lidarr must be able to see slskd's download folder (for add-ons, that
+- **Lidarr** running and reachable, e.g. as a Home Assistant app on the same
+  machine. Lidarr must be able to see slskd's download folder (for apps, that
   means it maps `/media` read-write).
 
 ## Setup
 
 1. In Lidarr, copy the API key from **Settings → General → Security**.
-2. Find your Lidarr hostname on its add-on info page (something like
+2. Find your Lidarr hostname on its app info page (something like
    `db21ed7f-lidarr`), and set **Lidarr URL** to `http://<hostname>:8686`.
    If Lidarr runs outside Home Assistant, use its IP/port instead.
-3. Leave **slskd URL** on `auto` — the add-on locates the slskd add-on through
+3. Leave **slskd URL** on `auto` — the app locates the slskd app through
    the Supervisor.
-4. Keep **Download directory** in sync with the slskd add-on's download
+4. Keep **Download directory** in sync with the slskd app's download
    directory (default `/media/slskd/downloads`).
-5. Start the add-on and watch the Log tab. Each cycle it logs what it searched
+5. Start the app and watch the Log tab. Each cycle it logs what it searched
    for and grabbed; set a few albums to *wanted/monitored* in Lidarr to see it work.
 
 ## Advanced configuration
 
-Soularr has many more settings than the add-on exposes: search behaviour, release
+Soularr has many more settings than the app exposes: search behaviour, release
 format preferences, file type priorities, blacklists, and more. Edit them in
-`/addon_configs/..._soularr/config.ini` with the File editor add-on (with
+`/addon_configs/..._soularr/config.ini` with the File editor app (with
 *Enforce Basepath* disabled) or via Samba — see the
 [upstream config reference](https://github.com/mrusse/soularr/blob/main/config.ini).
 
-The connection settings managed by this add-on are rewritten from the add-on
+The connection settings managed by this app are rewritten from the app
 options on every start — change those in the Configuration tab, not in the file:
 `[Lidarr] host_url / api_key / download_dir` and
 `[Slskd] host_url / api_key / url_base / download_dir`.
@@ -52,7 +52,7 @@ edit Soularr's configuration, including API keys.
 
 ## Troubleshooting
 
-- **"no installed slskd add-on found"** — install/start the slskd add-on from
+- **"no installed slskd app found"** — install/start the slskd app from
   this repository first, or set **slskd URL** manually.
 - **Downloads complete but never import** — check that Lidarr can see the
   download folder at the same path (`/media/...`), and look in Lidarr under
