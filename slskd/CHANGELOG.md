@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.25.1.2
+
+- Remove the `remote_configuration` option added in 0.25.1.1 — the upstream
+  project discourages it for security reasons. **If you enabled it, this
+  update turns it back off.**
+- Instead, `slskd.yml` now lives in the add-on configuration folder and can be
+  edited from Home Assistant (File editor / Samba) at
+  `/addon_configs/..._slskd/slskd.yml`. Most changes hot-reload. An existing
+  `/data/slskd/slskd.yml` is migrated automatically.
+
 ## 0.25.1.1
 
 - Add `remote_configuration` option (default `true`): edit slskd's full

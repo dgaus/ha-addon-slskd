@@ -27,7 +27,8 @@ in the add-on's Network section (and your router rule) to match.
 |------|---------|
 | `/media/slskd/downloads` | Completed downloads (default, configurable) |
 | `/media/music` | Default shared directory (configurable) |
-| `/data/slskd` | slskd state: config, databases, search history. Survives updates and rebuilds. |
+| `/addon_configs/..._slskd/slskd.yml` | slskd's configuration file, editable from Home Assistant (see below) |
+| `/data/slskd` | slskd state: databases, search history. Survives updates and rebuilds. |
 
 The `/media` folder is shared with Home Assistant (visible in the Media browser) and
 other add-ons such as Samba.
@@ -49,13 +50,31 @@ If you map host port **5030** in the Network section for direct/API access:
 ## Advanced configuration
 
 Anything not covered by the add-on options (upload/download slots, speed limits,
-user groups, filters, …) can be edited directly in slskd's own configuration file
-from the web UI: **System → Options → Edit** (enabled by the add-on's
-*Remote configuration* option, on by default). See the
+user groups, filters, …) can be set in slskd's own configuration file, which this
+add-on keeps in the add-on configuration folder so you can edit it from Home
+Assistant: open the **File editor** (or **Studio Code Server** / **Samba**) add-on
+and edit `/addon_configs/..._slskd/slskd.yml`. The file starts out as slskd's fully
+commented example, and slskd watches it — most changes apply within seconds without
+a restart. See the
 [slskd configuration docs](https://github.com/slskd/slskd/blob/master/docs/config.md)
-for the full reference. The file lives at `/data/slskd/slskd.yml` inside the add-on.
+for the full reference.
 
-Note: settings managed by this add-on (Soulseek credentials, shared/download
-directories, listen port, web UI auth) are passed as environment variables, which
-**override** the YAML — change those in the add-on's Configuration tab, not in
-slskd.yml.
+For example, to limit uploads to 10 slots:
+
+```yaml
+transfers:
+  upload:
+    slots: 10
+```
+
+Notes:
+
+- Settings managed by this add-on (Soulseek credentials, shared/download
+  directories, listen port, web UI auth) are passed as environment variables, which
+  **override** the YAML — change those in the add-on's Configuration tab, not in
+  slskd.yml.
+- slskd's remote configuration feature (editing the YAML from its web UI) is
+  deliberately not enabled: the upstream project
+  [discourages it](https://github.com/slskd/slskd/blob/master/docs/config.md#remote-configuration)
+  because anyone who reaches the UI could read or rewrite the entire
+  configuration.

@@ -9,10 +9,28 @@ opt() {
     jq -r "$1 // empty" "$OPTIONS"
 }
 
-# Persist all slskd state (config, databases, search history) in the
-# add-on's /data volume; the upstream default /app is lost on rebuild.
+# Persist all slskd state (databases, search history) in the add-on's
+# /data volume; the upstream default /app is lost on rebuild.
 export SLSKD_APP_DIR=/data/slskd
 mkdir -p "$SLSKD_APP_DIR"
+
+# Keep slskd.yml in the addon_config mount so users can edit advanced
+# settings from Home Assistant (File editor / Samba add-ons) at
+# /addon_configs/..._slskd/slskd.yml. slskd watches the file and reloads
+# most settings at runtime.
+export SLSKD_CONFIG=/config/slskd.yml
+mkdir -p /config
+if [ ! -f "$SLSKD_CONFIG" ]; then
+    if [ -f /data/slskd/slskd.yml ]; then
+        # Migrate the config written by add-on versions <= 0.25.1.1.
+        mv /data/slskd/slskd.yml "$SLSKD_CONFIG"
+    else
+        # Seed with the upstream example, which documents every option.
+        # (The example lacks a trailing newline; add one so appends are safe.)
+        cp /slskd/config/slskd.example.yml "$SLSKD_CONFIG"
+        echo >> "$SLSKD_CONFIG"
+    fi
+fi
 
 export SLSKD_HTTP_PORT=5030
 
@@ -40,12 +58,6 @@ fi
 
 if [ "$(opt '.debug_logging')" = "true" ]; then
     export SLSKD_DEBUG=true
-fi
-
-# Allow editing slskd.yml from the web UI (System > Options). Options set by
-# this add-on via environment variables still take precedence over the YAML.
-if [ "$(opt '.remote_configuration')" = "true" ]; then
-    export SLSKD_REMOTE_CONFIGURATION=true
 fi
 
 # Ingress: slskd is served under Home Assistant's dynamic ingress path, which
