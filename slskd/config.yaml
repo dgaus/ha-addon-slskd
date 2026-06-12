@@ -1,0 +1,41 @@
+name: slskd
+version: "0.25.1"
+slug: slskd
+description: A modern client-server application for the Soulseek file sharing network
+url: https://github.com/slskd/slskd
+arch:
+  - amd64
+  - aarch64
+init: false
+ingress: true
+ingress_port: 5030
+panel_icon: mdi:folder-music
+panel_title: slskd
+hassio_api: true
+ports:
+  5030/tcp: null
+  50300/tcp: 50300
+ports_description:
+  5030/tcp: Web UI / API (optional — only map this if you need direct access outside Home Assistant; set web credentials if you do)
+  50300/tcp: Soulseek listen port (forward this on your router for peer connectivity)
+map:
+  - type: media
+    read_only: false
+options:
+  soulseek_username: ""
+  soulseek_password: ""
+  shared_dirs:
+    - /media/music
+  download_dir: /media/slskd/downloads
+  listen_port: 50300
+schema:
+  soulseek_username: str
+  soulseek_password: password
+  shared_dirs:
+    - str
+  download_dir: str
+  incomplete_dir: str?
+  listen_port: port
+  web_username: str?
+  web_password: password?
+  debug_logging: bool?

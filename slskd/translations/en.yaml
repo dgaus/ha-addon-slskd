@@ -1,0 +1,31 @@
+configuration:
+  soulseek_username:
+    name: Soulseek username
+    description: Your Soulseek network account username. New accounts are created automatically on first login.
+  soulseek_password:
+    name: Soulseek password
+    description: Your Soulseek network account password.
+  shared_dirs:
+    name: Shared directories
+    description: Directories to share with the Soulseek network (e.g. /media/music). Sharing is expected network etiquette.
+  download_dir:
+    name: Download directory
+    description: Where completed downloads are saved. Created automatically if missing.
+  incomplete_dir:
+    name: Incomplete directory
+    description: Optional separate directory for in-progress downloads. Defaults to a subdirectory of the app data dir.
+  listen_port:
+    name: Soulseek listen port
+    description: Port for incoming peer connections. Must match the mapped port in Network settings, and be forwarded on your router for best connectivity.
+  web_username:
+    name: Web UI username
+    description: Optional. Enables slskd's own login. Set this (and the password) if you expose port 5030 outside Home Assistant.
+  web_password:
+    name: Web UI password
+    description: Optional. Required together with the web UI username.
+  debug_logging:
+    name: Debug logging
+    description: Run slskd in debug mode with verbose log output.
+network:
+  5030/tcp: Web UI / API (optional, for direct access outside Home Assistant)
+  50300/tcp: Soulseek listen port (forward on your router)
